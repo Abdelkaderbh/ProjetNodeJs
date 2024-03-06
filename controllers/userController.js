@@ -17,6 +17,15 @@ exports.registerUser = async (req, res) => {
   }
 };
 
+//render register page
+exports.registerPage = async (req, res) => {
+  try {
+    res.render("register");
+  } catch (err) {
+    res.status(404).send("Page Not Found !");
+  }
+};
+
 //login user
 exports.loginUser = async (req, res) => {
   try {
@@ -32,6 +41,16 @@ exports.loginUser = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
     //res.send(`Hello ${user.username}`)
     res.send({ token: token });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+//logout user
+exports.logoutUser = async (req, res) => {
+  try {
+    localStorage.removeItem("token");
+    res.status(201).send("you have successfully logged out !");
   } catch (err) {
     console.log(err.message);
   }
