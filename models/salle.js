@@ -1,6 +1,10 @@
 const mongoose = require('mongoose'); // Importation du module mongoose
 
-const roomSchema = new mongoose.Schema({ 
+const salleSchema = new mongoose.Schema({ 
+    name: {
+        type: String, 
+        required: true 
+    },
     capacity: {
         type: Number, 
         required: true 
@@ -15,6 +19,6 @@ const roomSchema = new mongoose.Schema({
     }
 });
 
-const Room = mongoose.model('Room', roomSchema); // Création du modèle Room 
+const Salle = mongoose.model('Salle', salleSchema); // Création du modèle Salle 
 
-module.exports = Room; // Exportation Room
+module.exports = Salle; // Exportation Salle
