@@ -50,11 +50,17 @@ exports.loginUser = async (req, res) => {
       return res.render("login", { errorMessage: " Incorrect Password !" });
     }
     const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
-      expiresIn: "1d",
+      expiresIn: "1h",
     });
     res.cookie("token", token);
     return res.redirect("/salles");
   } catch (err) {
     console.log(err.message);
   }
+};
+
+//logout user
+exports.logoutUser = async (req, res) => {
+  await res.clearCookie("token");
+  return res.redirect("/login");
 };

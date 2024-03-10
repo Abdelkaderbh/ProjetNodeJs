@@ -4,8 +4,7 @@ const authenticate = (req, res, next) => {
   try {
     let token = req.cookies.token;
     if (token == null) {
-      req.user = null;
-      next();
+      return res.redirect("/login");
     } else {
       let decodeToken = jwt.verify(token, process.env.SECRET_KEY);
       decodeToken ? (req.userId = decodeToken.id) : (req.user = null);
