@@ -3,6 +3,15 @@ const User = require("../models/user");
 const bcyrpt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+//render register page
+exports.registerPage = async (req, res) => {
+  try {
+    res.render("register", { errorMessage: null });
+  } catch (err) {
+    res.status(404).send("Page Not Found !");
+  }
+};
+
 //registring user
 exports.registerUser = async (req, res) => {
   try {
@@ -17,10 +26,10 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-//render register page
-exports.registerPage = async (req, res) => {
+//render login page
+exports.loginPage = async (req, res) => {
   try {
-    res.render("register");
+    res.render("login", { errorMessage: null });
   } catch (err) {
     res.status(404).send("Page Not Found !");
   }
@@ -32,30 +41,20 @@ exports.loginUser = async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username: username });
     if (!user) {
-      res.status(404).send("user not found !");
+      return res.render("login", {
+        errorMessage: "Username does not exists !",
+      });
     }
     const VerifPassword = await bcyrpt.compare(password, user.password);
     if (!VerifPassword) {
-      res.status(404).send(" Incorrect Password !");
+      return res.render("login", { errorMessage: " Incorrect Password !" });
     }
-    const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
-    //res.send(`Hello ${user.username}`)
-    res.send({ token: token });
+    const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
+      expiresIn: "1d",
+    });
+    res.cookie("token", token);
+    return res.redirect("/salles");
   } catch (err) {
     console.log(err.message);
   }
-};
-
-//logout user
-exports.logoutUser = async (req, res) => {
-  try {
-    localStorage.removeItem("token");
-    res.status(201).send("you have successfully logged out !");
-  } catch (err) {
-    console.log(err.message);
-  }
-};
-
-exports.test = (req, res) => {
-  res.status(200).send("Hello you have successfully logged in!");
 };
