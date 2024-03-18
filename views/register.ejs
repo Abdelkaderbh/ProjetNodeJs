@@ -92,11 +92,18 @@
                           <div class="d-flex justify-content-start pt-1">
                             <input
                               type="submit"
-                              class="btn btn-success btn-lg ms-1"
+                              class="btn btn-success btn-lg"
                               value="Register"
                             >
-                          </input>
+                          </input> 
+                        
+                            
                           </div>
+                          <% if (Message) { %>
+                            <div class="alert alert-success mt-3" role="alert" id="errorMessage">
+                              <%= Message %>
+                            </div>
+                          <% } %>
                         </div>
                       </div>
                     </form>

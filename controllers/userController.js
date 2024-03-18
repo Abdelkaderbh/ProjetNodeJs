@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 //render register page
 exports.registerPage = async (req, res) => {
   try {
-    res.render("register", { errorMessage: null });
+    res.render("register", { Message: null });
   } catch (err) {
     res.status(404).send("Page Not Found !");
   }
@@ -19,8 +19,10 @@ exports.registerUser = async (req, res) => {
     const user = new User({ username, email, password });
     const registerUser = await user.save();
     registerUser
-      ? res.status(201).send("REGISTRED!")
-      : res.status(400).send("there is some error !");
+      ? res.render("register", { Message: "Account Created Successfully" })
+      : res.render("register", {
+          Message: "Username or Email already in user !",
+        });
   } catch (err) {
     res.status(400).send(err.message);
   }

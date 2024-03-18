@@ -4,8 +4,8 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const auth = require("./routes/auth");
 const salles = require("./routes/salleRoute");
+const homePage = require("./routes/index");
 const cookieParser = require("cookie-parser");
-const cors = require("cors");
 
 dotenv.config();
 // Importing the public folder for CSS and images
@@ -18,14 +18,10 @@ const DATABASE_URL = process.env.DATABASE_URL;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(
-  cors({
-    credentials: true,
-  })
-);
 
 app.use("", auth);
 app.use("", salles);
+app.use("", homePage);
 
 app.set("view engine", "ejs");
 
