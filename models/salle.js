@@ -5,13 +5,13 @@ const salleSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
-    capacity: {
+    price: {
         type: Number, 
         required: true 
     },
-    items: { 
-        type: [String], 
-        default: [] // Valeur par défaut: Tableau vide
+    capacity: {
+        type: Number, 
+        required: true 
     },
     availability: { 
         type: Boolean,

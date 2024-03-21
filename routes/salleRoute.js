@@ -5,6 +5,6 @@ const router = express.Router();
 
 // GET route to display the list of salles
 router.get("/allsalle", salleController.afficherListeSalles);
-router.get("/salles", authenticate, salleController.allsallePage);
+router.get("/salles",  salleController.allsallePage); //authenticate,
 
 module.exports = router;

@@ -17,16 +17,14 @@ exports.registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     const user = new User({ username, email, password });
-    const registerUser = await user.save();
-    registerUser
-      ? res.render("register", { Message: "Account Created Successfully" })
-      : res.render("register", {
-          Message: "Username or Email already in user !",
-        });
+    await user.save();
+    // Rediriger l'utilisateur vers la page de connexion après l'enregistrement réussi
+    res.redirect("/login");
   } catch (err) {
     res.status(400).send(err.message);
   }
 };
+
 
 //render login page
 exports.loginPage = async (req, res) => {
