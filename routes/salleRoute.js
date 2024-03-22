@@ -4,7 +4,6 @@ const authenticate = require("../middleware/authentication");
 const router = express.Router();
 
 // GET route to display the list of salles
-router.get("/allsalle", salleController.afficherListeSalles);
-router.get("/salles",  salleController.allsallePage); //authenticate,
-
+router.get("/salles", authenticate, salleController.allsallePage); //authenticate,
+router.post("/addSalle", salleController.addSalle);
 module.exports = router;

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Liste des salles</title>
     <link
       href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700"
       rel="stylesheet"
@@ -14,111 +14,59 @@
   <body>
     <div class="main-content">
       <div class="container mt-7">
-       
         <!-- Table -->
         <h1 class="mb-5">Liste des salles</h1>
         <div class="row">
           <div class="col">
             <div class="card shadow">
-              
               <div class="table-responsive">
                 <table class="table align-items-center table-flush">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">Salle</th>
-                            <th scope="col">Prix</th>
-                            <th scope="col">Capacité</th>
-                            <th scope="col">Disponibilite</th>
-                            <th scope="col">Info</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% salles.forEach(function(salle) { %>
-                        <tr>
-                            <th scope="row">
-                                <div class="media align-items-center">
-                                    <a href="#" class="avatar rounded-circle mr-3">
-                                        <img alt="Image placeholder"
-                                            src="https://raw.githack.com/creativetimofficial/argon-dashboard/master//img/theme/bootstrap.jpg" />
-                                    </a>
-                                    <div class="media-body">
-                                        <span class="mb-0 text-sm"><%= salle.name %></span>
-                                    </div>
-                                </div>
-                            </th>
-                            <td><%= salle.price %> DT</td>
-                            <td>
-                                <span class="badge badge-dot mr-4">
-                                    <i class="bg-warning"></i> <%= salle.capacity %>
-                                </span>
-                            </td>
-                            <td>
-                              <% if (salle.availability) { %>
-                                Disponible
-                              <% } else { %>
-                                Indisponible
-                              <% } %>
-                            </td>
-                            
-                            
-                           
-                            <td><button class="info-btn">info</button></td>
-                            
-                        </tr>
-                        <% }); %>
-                    </tbody>
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Salle</th>
+                      <th scope="col">Prix</th>
+                      <th scope="col">Capacité</th>
+                      <th scope="col">Disponibilite</th>
+                      <th scope="col">Reserver</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% salles.forEach(function(salle) { %>
+                    <tr>
+                      <th scope="row">
+                        <div class="media align-items-center">
+                          <a href="#" class="avatar rounded-circle mr-3">
+                            <img
+                              alt="Image placeholder"
+                              src="https://raw.githack.com/creativetimofficial/argon-dashboard/master//img/theme/bootstrap.jpg"
+                            />
+                          </a>
+                          <div class="media-body">
+                            <span class="mb-0 text-sm"><%= salle.name %></span>
+                          </div>
+                        </div>
+                      </th>
+                      <td><%= salle.price %> DT</td>
+                      <td>
+                        <span class="badge badge-dot mr-4">
+                          <i class="bg-warning"></i> <%= salle.capacity %>
+                        </span>
+                      </td>
+                      <td>
+                        <% if (salle.availability) { %> Disponible <% } else {
+                        %> Indisponible <% } %>
+                      </td>
+
+                      <td><button class="info-btn">Reserver</button></td>
+                    </tr>
+                    <% }); %>
+                  </tbody>
                 </table>
-            </div>
-            
-            <div class="card-footer py-4">
-              <nav aria-label="...">
-                  <ul id="pagination" class="pagination justify-content-end mb-0">
-                      <li class="page-item disabled" id="previous">
-                          <a class="page-link" tabindex="-1">
-                              <i class="fas fa-angle-left"></i>
-                              <span class="sr-only">Previous</span>
-                          </a>
-                      </li>
-                      <li class="page-item active">
-                          <a class="page-link">1</a>
-                      </li>
-                      <li class="page-item">
-                          <a class="page-link">2 <span class="sr-only">(current)</span></a>
-                      </li>
-                      <li class="page-item">
-                          <a class="page-link">3</a>
-                      </li>
-                      <li class="page-item" id="next">
-                          <a class="page-link">
-                              <i class="fas fa-angle-right"></i>
-                              <span class="sr-only">Next</span>
-                          </a>
-                      </li>
-                  </ul>
-              </nav>
-          </div>
-          
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <footer class="footer">
-      <div class="row align-items-center justify-content-xl-between">
-        <div class="col-xl-6 m-auto text-center">
-          <div class="copyright">
-            <p>
-              Made with
-              <a
-                href="https://www.creative-tim.com/product/argon-dashboard"
-                target="_blank"
-                >Argon Dashboard</a
-              >
-              by Creative Tim
-            </p>
-          </div>
-        </div>
-      </div>
-    </footer>
   </body>
 </html>

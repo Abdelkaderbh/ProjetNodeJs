@@ -1,4 +1,5 @@
 const Salle = require("../models/salle");
+
 exports.afficherListeSalles = async (req, res) => {
   try {
     // Récupérer toutes les salles du modèle
@@ -13,12 +14,10 @@ exports.afficherListeSalles = async (req, res) => {
   } catch (error) {
     // Gérer les erreurs
     console.error(error);
-    res
-      .status(500)
-      .json({
-        message:
-          "Une erreur est survenue lors de la récupération de la liste des salles.",
-      });
+    res.status(500).json({
+      message:
+        "Une erreur est survenue lors de la récupération de la liste des salles.",
+    });
   }
 };
 
@@ -27,11 +26,20 @@ exports.allsallePage = async (req, res) => {
   try {
     // Récupérer toutes les salles
     const salles = await Salle.find();
-
     // Rendre la page sallelist.ejs en passant les données des salles
     res.render("sallelist", { salles: salles });
   } catch (err) {
     // Gérer les erreurs
     res.status(404).send("Page Not Found !");
+  }
+};
+
+exports.addSalle = async (req, res) => {
+  try {
+    const addSalle = req.body;
+    let salle = await Salle.create(addSalle);
+    res.json(salle);
+  } catch (err) {
+    res.status(400).send(err.message);
   }
 };
