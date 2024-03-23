@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const auth = require("./routes/auth");
 const salles = require("./routes/salleRoute");
 const homePage = require("./routes/index");
+const reservation = require("./routes/reservationRoute");
 const cookieParser = require("cookie-parser");
 
 dotenv.config();
@@ -22,7 +23,7 @@ app.use(cookieParser());
 app.use("", auth);
 app.use("", salles);
 app.use("", homePage);
-
+app.use("", reservation);
 app.set("view engine", "ejs");
 
 //connecting to database url and starting local server

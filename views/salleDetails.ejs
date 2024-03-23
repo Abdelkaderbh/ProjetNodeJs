@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de la salle</title>
+</head>
+<body>
+
+    <h1>Détails de la salle</h1>
+    <ul>
+        <li>Nom de la salle : <%= salle.name %></li>
+        <li>Capacité : <%= salle.capacity %></li>
+        <li>Prix : <%= salle.price %></li>
+    </ul>
+    <form method="post" action="/addreservation/<%= salle._id %>">
+        <input type="date" name="dateReservation">
+        <input type="submit" value="Réserver">
+    </form>
+</body>
+</html>

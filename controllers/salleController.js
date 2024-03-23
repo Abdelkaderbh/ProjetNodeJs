@@ -43,3 +43,28 @@ exports.addSalle = async (req, res) => {
     res.status(400).send(err.message);
   }
 };
+
+// Rendre la page de plus d'infos de salle
+exports.salleDetailsPage = async (req, res) => {
+  try {
+    // Récupérer l'ID de la salle à partir des paramètres de la requête
+    const salleId = req.params.id;
+
+    // Récupérer la salle correspondante dans la base de données
+    const salle = await Salle.findById(salleId);
+
+    if (!salle) {
+      // Si la salle n'existe pas, afficher un message d'erreur
+      return res.status(404).json({ message: "Salle introuvable." });
+    }
+
+    // Rendre la page salleDetails.ejs en passant les données de la salle
+    res.render("salleDetails", { salle: salle });
+  } catch (error) {
+    // Gérer les erreurs
+    console.error(error);
+    res.status(500).json({
+      message: "Une erreur est survenue lors de la récupération des informations de la salle.",
+    });
+  }
+};
