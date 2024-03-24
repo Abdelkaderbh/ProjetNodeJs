@@ -1,3 +1,4 @@
+const Reservation = require("../models/reservation");
 const Salle = require("../models/salle");
 
 exports.afficherListeSalles = async (req, res) => {
@@ -49,7 +50,6 @@ exports.salleDetailsPage = async (req, res) => {
   try {
     // Récupérer l'ID de la salle à partir des paramètres de la requête
     const salleId = req.params.id;
-
     // Récupérer la salle correspondante dans la base de données
     const salle = await Salle.findById(salleId);
 
@@ -58,13 +58,18 @@ exports.salleDetailsPage = async (req, res) => {
       return res.status(404).json({ message: "Salle introuvable." });
     }
 
+    //getting reserved date and time
+    let resDateAndTime = await Reservation.distinct("dateReservation", {
+      salle: salleId,
+    });
     // Rendre la page salleDetails.ejs en passant les données de la salle
-    res.render("salleDetails", { salle: salle });
+    res.render("salleDetails", { salle: salle, resDateAndTime });
   } catch (error) {
     // Gérer les erreurs
     console.error(error);
     res.status(500).json({
-      message: "Une erreur est survenue lors de la récupération des informations de la salle.",
+      message:
+        "Une erreur est survenue lors de la récupération des informations de la salle.",
     });
   }
 };
