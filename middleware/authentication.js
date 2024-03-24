@@ -7,7 +7,9 @@ const authenticate = (req, res, next) => {
       return res.redirect("/login");
     } else {
       let decodeToken = jwt.verify(token, process.env.SECRET_KEY);
-      decodeToken ? (req.userId = decodeToken.id) : (req.user = null);
+      decodeToken
+        ? ((req.userId = decodeToken.id), (req.userEmail = decodeToken.email))
+        : (req.user = null);
     }
     next();
   } catch (err) {

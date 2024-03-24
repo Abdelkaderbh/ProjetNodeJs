@@ -25,7 +25,6 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-
 //render login page
 exports.loginPage = async (req, res) => {
   try {
@@ -49,10 +48,15 @@ exports.loginUser = async (req, res) => {
     if (!VerifPassword) {
       return res.render("login", { errorMessage: " Incorrect Password !" });
     }
-    const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
     res.cookie("token", token);
+    console.log(token);
     return res.redirect("/salles");
   } catch (err) {
     console.log(err.message);
