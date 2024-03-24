@@ -6,11 +6,10 @@ exports.addReservation = async (req, res) => {
         const salleId = req.params.id; // Récupérer l'ID de la salle depuis l'URL
         // L'utilisateur authentifié est accessible via req.user
         const currentUser = req.user;
-        console.log("uuu",currentUser);
         // Créez une nouvelle réservation en utilisant les données de la requête
         const newReservation = {
             salle: salleId,
-            utilisateur: currentUser._id, // Utilisez l'ID de l'utilisateur authentifié
+            utilisateur: currentUser, // Utilisez l'ID de l'utilisateur authentifié
             dateReservation: req.body.dateReservation
         };
         
