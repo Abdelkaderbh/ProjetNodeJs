@@ -4,16 +4,14 @@ const Reservation = require('../models/reservation');
 exports.addReservation = async (req, res) => {
     try {
         const salleId = req.params.id; // Récupérer l'ID de la salle depuis l'URL
-        // L'utilisateur authentifié est accessible via req.user
-        const currentUser = req.user;
-        // Créez une nouvelle réservation en utilisant les données de la requête
-        const newReservation = {
-            salle: salleId,
-            utilisateur: currentUser, // Utilisez l'ID de l'utilisateur authentifié
-            dateReservation: req.body.dateReservation
-        };
+    
         
-        const reservation = await Reservation.create(newReservation);
+        // L'utilisateur authentifié est accessible via req.user
+        const currentUser = req.userId;
+        // Créez une nouvelle réservation en utilisant les données de la requête
+       
+        const reservation = new Reservation({salle: salleId,utilisateur:currentUser,dateReservation: req.body.dateReservation});
+        await reservation.save();
         res.status(201).send({ message: "Reservation added successfully", reservation: reservation });
     } catch (err) {
         console.error(err); // Afficher l'erreur dans la console pour le débogage
