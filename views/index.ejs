@@ -60,13 +60,24 @@
                         <li><a href="/salles"> Rooms Informations </a></li>
                         <li><a href="/salles">Schedule</a></li>
                         <li><a href="#Contact">Contact</a></li>
+
+                        <% if(user) { %>
+                        <li><a href="/salles">My Reservations </a></li>
+                        <% } else { %>
                         <li><a href="/login">Login</a></li>
+                        <% } %>
                       </ul>
                     </nav>
                   </div>
+                  <% if (!user) { %>
                   <div class="header-right-btn f-right d-none d-lg-block ml-30">
                     <a href="/register" class="btn header-btn">Register NOW</a>
                   </div>
+                  <% } else { %>
+                  <div class="header-right-btn f-right d-none d-lg-block ml-30">
+                    <a href="/logout" class="btn header-btn">Logout</a>
+                  </div>
+                  <% } %>
                 </div>
               </div>
               <!-- Mobile Menu -->

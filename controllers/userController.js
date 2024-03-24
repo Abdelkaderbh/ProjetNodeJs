@@ -56,8 +56,7 @@ exports.loginUser = async (req, res) => {
       }
     );
     res.cookie("token", token);
-    console.log(token);
-    return res.redirect("/salles");
+    return res.redirect("/");
   } catch (err) {
     console.log(err.message);
   }

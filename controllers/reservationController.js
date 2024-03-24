@@ -17,7 +17,7 @@ const sendConfMail = async (recemail, reservationDetails) => {
     });
 
     const formattedDate = reservationDetails.dateReservation.toLocaleDateString(
-      "en-US",
+      "fr-FR",
       {
         year: "numeric",
         month: "short",
@@ -69,7 +69,6 @@ exports.addReservation = async (req, res) => {
       await sendConfMail(recemail, reservationDetails);
       res.status(201).send({
         message: "Reservation added successfully",
-        reservation: reservation,
       });
     } else {
       res.status(400).send("date alrady in use");
