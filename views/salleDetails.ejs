@@ -1,23 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Détails de la salle</title>
-  </head>
-  <body>
-    <h1>Détails de la salle</h1>
-    <ul>
-      <li>Nom de la salle : <%= salle.name %></li>
-      <li>Capacité : <%= salle.capacity %></li>
-      <li>Prix : <%= salle.price %></li>
-      <li>Date Reservé : <%=resDateAndTime%></li>
-    </ul>
-    <form method="post" action="/addreservation/<%= salle._id %>">
-      <input type="date" name="dateReservation" />
-      <input type="submit" value="Réserver" />
-    </form>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Détails de la salle</title>
+  <link rel="stylesheet" href="/css/styleSalleDetail.css" />
+</head>
+<body>
+  <h1>Détails de la salle</h1>
+  <ul>
+    <li>Nom de la salle : <span><%= salle.name %></span></li>
+    <li>Capacité : <span><%= salle.capacity %></span></li>
+    <li>Prix : <span><%= salle.price %></span></li>
+    <li>Date(s) Réservée(s) :</li>
+    <% resDateAndTime.forEach(date => { %>
+      <ul class="date-reseve">
+      <li ><span ><%= date %></span></li> 
+      </ul>
+    <% }); %>
+  </ul>
+  <form id="reservationForm" method="post" action="/addreservation/<%= salle._id %>">
+    <input type="date" name="dateReservation" id="dateReservation" autofocus />
+    <input type="submit" value="Réserver" />
+  </form>
 
-    
-  </body>
+
+  <script>
+    // code JavaScript pour valider la date avant la soumission
+    document.getElementById('reservationForm').addEventListener('submit', function(event) {
+      var selectedDate = document.getElementById('dateReservation').value;
+      var currentDate = new Date().toISOString().split('T')[0]; // Récupère la date actuelle au format YYYY-MM-DD
+      if (selectedDate < currentDate) {
+        event.preventDefault(); // Empêche la soumission du formulaire si la date est antérieure à aujourd'hui
+        alert("La date sélectionnée est invalide. Veuillez choisir une date ultérieure.");
+      }
+    });
+  </script>
+</body>
 </html>

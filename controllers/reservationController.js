@@ -71,7 +71,7 @@ exports.addReservation = async (req, res) => {
         message: "Reservation added successfully",
       });
     } else {
-      res.status(400).send("date alrady in use");
+      res.status(400).send("date already in use");
     }
   } catch (err) {
     console.error(err); // Afficher l'erreur dans la console pour le débogage

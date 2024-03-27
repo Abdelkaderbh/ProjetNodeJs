@@ -1,5 +1,6 @@
 const Reservation = require("../models/reservation");
 const Salle = require("../models/salle");
+const moment = require('moment');
 
 exports.afficherListeSalles = async (req, res) => {
   try {
@@ -58,10 +59,14 @@ exports.salleDetailsPage = async (req, res) => {
       return res.status(404).json({ message: "Salle introuvable." });
     }
 
-    //getting reserved date and time
+    // Récupérer les dates de réservation au format ISOString
     let resDateAndTime = await Reservation.distinct("dateReservation", {
       salle: salleId,
     });
+
+    // Formater les dates de réservation dans le format souhaité (par exemple, YYYY-MM-DD HH:mm:ss)
+    resDateAndTime = resDateAndTime.map(date => moment(date).format('DD-MM-YYYY'));
+
     // Rendre la page salleDetails.ejs en passant les données de la salle
     res.render("salleDetails", { salle: salle, resDateAndTime });
   } catch (error) {
@@ -73,3 +78,4 @@ exports.salleDetailsPage = async (req, res) => {
     });
   }
 };
+
