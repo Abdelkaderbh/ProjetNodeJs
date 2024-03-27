@@ -133,7 +133,7 @@ table {
 }
 /* Style de base du bouton */
 .info-btn {
-    background-color: #06269d;
+    background-color: #0dcaf0;
     color: #fff;
     padding: 5px 10px;
     border: none;
@@ -145,7 +145,23 @@ table {
   
   /* Animation au survol */
   .info-btn:hover {
-    background-color: #0056b3;
+    background-color: #25cff2;
+  }
+
+.warning-btn {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Animation au survol */
+  .warning-btn:hover {
+    background-color: #bb2d3b;
   }
   
 caption {

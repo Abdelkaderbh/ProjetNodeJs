@@ -1,12 +1,11 @@
 const Reservation = require("../models/reservation");
 const Salle = require("../models/salle");
-const moment = require('moment');
+const moment = require("moment");
 
 exports.afficherListeSalles = async (req, res) => {
   try {
     // Récupérer toutes les salles du modèle
     const salles = await Salle.find();
-
     if (!salles || salles.length === 0) {
       // Si aucune salle n'existe, afficher un message
       return res.status(404).json({ message: "Aucune salle trouvée." });
@@ -65,8 +64,9 @@ exports.salleDetailsPage = async (req, res) => {
     });
 
     // Formater les dates de réservation dans le format souhaité (par exemple, YYYY-MM-DD HH:mm:ss)
-    resDateAndTime = resDateAndTime.map(date => moment(date).format('DD-MM-YYYY'));
-
+    resDateAndTime = resDateAndTime.map((date) =>
+      moment(date).format("DD-MM-YYYY")
+    );
     // Rendre la page salleDetails.ejs en passant les données de la salle
     res.render("salleDetails", { salle: salle, resDateAndTime });
   } catch (error) {
@@ -78,4 +78,3 @@ exports.salleDetailsPage = async (req, res) => {
     });
   }
 };
-

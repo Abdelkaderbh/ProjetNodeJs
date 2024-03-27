@@ -5,40 +5,29 @@ require("dotenv").config();
 const email = process.env.EMAIL;
 const password = process.env.PASSWORD;
 
-//Envoyer Mail de confirmation
-const sendConfMail = async (recemail, reservationDetails) => {
+// Rendre la page de liste des salles
+exports.reservationPage = async (req, res) => {
   try {
-    let transporter = nodeMailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: email,
-        pass: password,
-      },
-    });
-
-    const formattedDate = reservationDetails.dateReservation.toLocaleDateString(
-      "fr-FR",
-      {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      }
-    );
-    let mailOption = {
-      from: email,
-      to: recemail,
-      subject: "Confirmation de Reservation",
-      html: `<p> <b> Bonjour , <b> </p>
-          <p>Votre Réservation a été mis avec success</p>
-          <p>  <b> Room Number : </b> ${reservationDetails.salle} </p>
-          <p> <b> Date: </b> ${formattedDate}</p>
-          <p>  <b> Merci ! </b> </p>`,
-    };
-    await transporter.sendMail(mailOption);
+    // Rendre la page sallelist.ejs en passant les données des salles
+    res.render("reservation");
   } catch (err) {
-    console.log(err.message);
+    // Gérer les erreurs
+    res.status(404).send("Page Not Found !");
   }
 };
+
+exports.userReservationsPage = async (req, res) => {
+  const currentUser = req.userId;
+  const userRes = await Reservation.find({
+    utilisateur: currentUser,
+  }).populate("salle");
+  try {
+    res.render("userReservationsList", { res: userRes });
+  } catch (err) {
+    res.status(404).send("Page Not Found!");
+  }
+};
+
 // Ajouter une réservation
 exports.addReservation = async (req, res) => {
   try {
@@ -67,9 +56,7 @@ exports.addReservation = async (req, res) => {
         dateReservation: dateRes,
       };
       await sendConfMail(recemail, reservationDetails);
-      res.status(201).send({
-        message: "Reservation added successfully",
-      });
+      res.status(201).redirect("/myrerservations");
     } else {
       res.status(400).send("date already in use");
     }
@@ -79,25 +66,85 @@ exports.addReservation = async (req, res) => {
   }
 };
 
-// Rendre la page de liste des salles
-exports.reservationPage = async (req, res) => {
+//Modifier Reservation
+
+//Annuler Reservation
+exports.removeReservation = async (req, res) => {
   try {
-    // Rendre la page sallelist.ejs en passant les données des salles
-    res.render("reservation");
+    const resId = req.body.reservationId;
+    const recemail = req.userEmail;
+    const canceledResInfo = await Reservation.findById(resId).populate("salle");
+
+    await sendCancelMail(recemail, canceledResInfo);
+    await Reservation.findByIdAndDelete(resId);
+    res.redirect("/myrerservations");
   } catch (err) {
-    // Gérer les erreurs
-    res.status(404).send("Page Not Found !");
+    console.log(err);
+  }
+};
+//Envoyer Mail de confirmation
+const sendConfMail = async (recemail, reservationDetails) => {
+  try {
+    let transporter = nodeMailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: email,
+        pass: password,
+      },
+    });
+    const formattedDate = reservationDetails.dateReservation.toLocaleDateString(
+      "fr-FR",
+      {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      }
+    );
+    let mailOption = {
+      from: email,
+      to: recemail,
+      subject: "Confirmation de Reservation",
+      html: `<p> <b> Bonjour , <b> </p>
+          <p>Votre Réservation a été mis avec success</p>
+          <p>  <b> Room Number : </b> ${reservationDetails.salle} </p>
+          <p> <b> Date: </b> ${formattedDate}</p>
+          <p>  <b> Merci ! </b> </p>`,
+    };
+    await transporter.sendMail(mailOption);
+  } catch (err) {
+    console.log(err.message);
   }
 };
 
-exports.userReservationsPage = async (req, res) => {
-  const currentUser = req.userId;
-  const userRes = await Reservation.find({
-    utilisateur: currentUser,
-  }).populate("salle");
+//Envoyer Mail de Annulation
+const sendCancelMail = async (recemail, canceledResInfo) => {
   try {
-    res.render("userReservationsList", { res: userRes });
+    let transporter = nodeMailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: email,
+        pass: password,
+      },
+    });
+    const formattedDate = canceledResInfo.dateReservation.toLocaleDateString(
+      "fr-FR",
+      {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      }
+    );
+    let mailOption = {
+      from: email,
+      to: recemail,
+      subject: "Confirmation d'Annulation de reservation",
+      html: `<p> <b> Bonjour , <b> </p>
+          <p> Votre Réservation Pour la Salle : <b> ${canceledResInfo.salle.name} </b>  <br> Du date : <b> ${formattedDate} <br>
+            </b> a été Annuler </p>
+          <p>  <b> Merci ! </b> </p>`,
+    };
+    await transporter.sendMail(mailOption);
   } catch (err) {
-    res.status(404).send("Page Not Found!");
+    console.log(err.message);
   }
 };
