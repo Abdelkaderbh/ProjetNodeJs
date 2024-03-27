@@ -1,9 +1,10 @@
-const express = require('express');
-const reservController = require('../controllers/reservationController');
+const express = require("express");
+const reservController = require("../controllers/reservationController");
 const router = express.Router();
-const auth = require('../middleware/authentication');
+const auth = require("../middleware/authentication");
 // GET route to reservation page
-router.get('/reservation', reservController.reservationPage)
+router.get("/reservation", reservController.reservationPage);
 // POST route to add a reservation
-router.post('/addreservation/:id',auth, reservController.addReservation)
+router.post("/addreservation/:id", auth, reservController.addReservation);
+router.get("/myrerservations", auth, reservController.userReservationsPage);
 module.exports = router;

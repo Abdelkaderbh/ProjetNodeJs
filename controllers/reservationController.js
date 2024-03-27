@@ -89,3 +89,15 @@ exports.reservationPage = async (req, res) => {
     res.status(404).send("Page Not Found !");
   }
 };
+
+exports.userReservationsPage = async (req, res) => {
+  const currentUser = req.userId;
+  const userRes = await Reservation.find({
+    utilisateur: currentUser,
+  }).populate("salle");
+  try {
+    res.render("userReservationsList", { res: userRes });
+  } catch (err) {
+    res.status(404).send("Page Not Found!");
+  }
+};

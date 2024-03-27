@@ -35,12 +35,6 @@
                     <tr>
                       <th scope="row">
                         <div class="media align-items-center">
-                          <a href="#" class="avatar rounded-circle mr-3">
-                            <img
-                              alt="Image placeholder"
-                              src="https://raw.githack.com/creativetimofficial/argon-dashboard/master//img/theme/bootstrap.jpg"
-                            />
-                          </a>
                           <div class="media-body">
                             <span class="mb-0 text-sm"><%= salle.name %></span>
                           </div>
@@ -57,7 +51,11 @@
                         %> Indisponible <% } %>
                       </td>
 
-                      <td><a href="/infosalle/<%= salle._id %>"><button class="info-btn">Reserver</button></a></td>
+                      <td>
+                        <a href="/infosalle/<%= salle._id %>"
+                          ><button class="info-btn">Reserver</button></a
+                        >
+                      </td>
                     </tr>
                     <% }); %>
                   </tbody>
