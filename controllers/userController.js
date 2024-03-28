@@ -52,7 +52,7 @@ exports.loginUser = async (req, res) => {
       { id: user._id, email: user.email },
       process.env.SECRET_KEY,
       {
-        expiresIn: "1h",
+        expiresIn: "24h",
       }
     );
     res.cookie("token", token);

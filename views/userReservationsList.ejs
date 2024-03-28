@@ -43,19 +43,25 @@
                         </div>
                       </th>
                       <td><%= reservation.dateReservation %></td>
-
                       <td>
-                        <a href="/infosalle/<%= reservation.salle._id %>"
-                          ><button class="info-btn">Modifier Date</button></a
-                        >
+                        <a href="/editReservation/<%= reservation._id %>">
+                          <button class="info-btn">Modifier Date</button>
+                        </a>
                       </td>
 
                       <td>
                         <form action="/cancelreservation" method="post">
                           <!-- Hidden input field containing reservation ID -->
-                          <input type="hidden" name="reservationId" value="<%= reservation._id %>">
+                          <input
+                            type="hidden"
+                            name="reservationId"
+                            value="<%= reservation._id %>"
+                          />
                           <!-- Submit button -->
-                          <button type="submit" class="warning-btn">Annuler</button>
+                          <button type="submit" class="warning-btn">
+                            Annuler
+                          </button>
+                        </form>
                       </td>
                     </tr>
                     <% }); %>

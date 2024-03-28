@@ -5,6 +5,7 @@ require("dotenv").config();
 const email = process.env.EMAIL;
 const password = process.env.PASSWORD;
 
+///Rendring Pages
 // Rendre la page de liste des salles
 exports.reservationPage = async (req, res) => {
   try {
@@ -16,6 +17,18 @@ exports.reservationPage = async (req, res) => {
   }
 };
 
+//Edit Reservation Page
+exports.editReservationPage = async (req, res) => {
+  try {
+    const resId = req.params.id;
+    const reservation = await Reservation.findById(resId).populate("salle");
+    res.render("editReservation", { reservation: reservation });
+  } catch (err) {
+    res.status(404).send("Page Not Found !");
+  }
+};
+
+//user reservations list page
 exports.userReservationsPage = async (req, res) => {
   const currentUser = req.userId;
   const userRes = await Reservation.find({
@@ -28,6 +41,7 @@ exports.userReservationsPage = async (req, res) => {
   }
 };
 
+///Reservations CRUD
 // Ajouter une réservation
 exports.addReservation = async (req, res) => {
   try {
@@ -67,6 +81,24 @@ exports.addReservation = async (req, res) => {
 };
 
 //Modifier Reservation
+exports.editReservation = async (req, res) => {
+  try {
+    const resId = req.params.id;
+    const recemail = req.userEmail;
+    const newDate = new Date(req.body.dateReservation);
+    const oldReservation = await Reservation.findById(resId).populate("salle");
+
+    const updateReservation = await Reservation.findByIdAndUpdate(resId, {
+      $set: {
+        dateReservation: newDate,
+      },
+    });
+    await sendUpdateMail(recemail, oldReservation, newDate);
+    res.redirect("/myrerservations");
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 
 //Annuler Reservation
 exports.removeReservation = async (req, res) => {
@@ -74,7 +106,6 @@ exports.removeReservation = async (req, res) => {
     const resId = req.body.reservationId;
     const recemail = req.userEmail;
     const canceledResInfo = await Reservation.findById(resId).populate("salle");
-
     await sendCancelMail(recemail, canceledResInfo);
     await Reservation.findByIdAndDelete(resId);
     res.redirect("/myrerservations");
@@ -82,6 +113,8 @@ exports.removeReservation = async (req, res) => {
     console.log(err);
   }
 };
+
+////Mailing Functions
 //Envoyer Mail de confirmation
 const sendConfMail = async (recemail, reservationDetails) => {
   try {
@@ -141,6 +174,44 @@ const sendCancelMail = async (recemail, canceledResInfo) => {
       html: `<p> <b> Bonjour , <b> </p>
           <p> Votre Réservation Pour la Salle : <b> ${canceledResInfo.salle.name} </b>  <br> Du date : <b> ${formattedDate} <br>
             </b> a été Annuler </p>
+          <p>  <b> Merci ! </b> </p>`,
+    };
+    await transporter.sendMail(mailOption);
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+//Envoyer Mail De Modification
+const sendUpdateMail = async (recemail, oldReservation, newDate) => {
+  try {
+    let transporter = nodeMailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: email,
+        pass: password,
+      },
+    });
+    const formattedOldDate = oldReservation.dateReservation.toLocaleDateString(
+      "fr-FR",
+      {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      }
+    );
+    const formattedNewDate = newDate.toLocaleDateString("fr-FR", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+    let mailOption = {
+      from: email,
+      to: recemail,
+      subject: "Confirmation de Modification du date de reservation",
+      html: `<p> <b> Bonjour , <b> </p>
+          <p> Votre Date de reservation a été Modifier Pour la Salle : <b> ${oldReservation.salle.name} </b>  <br> Ancien date : <b> ${formattedOldDate} </b> <br>
+            </b> Nouveau Date : <b> ${formattedNewDate} </p>
           <p>  <b> Merci ! </b> </p>`,
     };
     await transporter.sendMail(mailOption);
