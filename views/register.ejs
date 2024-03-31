@@ -96,13 +96,22 @@
                               value="Register"
                             >
                           </input> 
+
+                          <div>
+                            <p> Already have an account ? <a href="/login"> Login Here </a> </p>
+                          </div>
                         
                             
                           </div>
                           <% if (Message) { %>
-                            <div class="alert alert-success mt-3" role="alert" id="errorMessage">
+                            <div class="alert alert-danger mt-3" role="alert" id="errorMessage">
                               <%= Message %>
                             </div>
+                            <script>
+                              setTimeout(function () {
+                                document.getElementById("errorMessage").style.display = "none";
+                              }, 2000);
+                            </script>
                           <% } %>
                         </div>
                       </div>

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/styleSalle.css" />
     <%- include('../views/partials/css.ejs') %>
   </head>
+  <%- include('../views/partials/header.ejs') %>
 
   <body>
     <div class="main-content">
@@ -42,7 +43,11 @@
                           </div>
                         </div>
                       </th>
-                      <td><%= reservation.dateReservation %></td>
+                      <td>
+                        <%=
+                        reservation.dateReservation.toLocaleDateString('fr-FR',
+                        { day: 'numeric', month: 'short', year: 'numeric' }) %>
+                      </td>
                       <td>
                         <a href="/editReservation/<%= reservation._id %>">
                           <button class="info-btn">Modifier Date</button>

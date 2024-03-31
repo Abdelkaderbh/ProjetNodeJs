@@ -7,6 +7,7 @@ const salles = require("./routes/salleRoute");
 const homePage = require("./routes/index");
 const reservation = require("./routes/reservationRoute");
 const cookieParser = require("cookie-parser");
+const authenticate = require("./middleware/authentication");
 
 dotenv.config();
 // Importing the public folder for CSS and images

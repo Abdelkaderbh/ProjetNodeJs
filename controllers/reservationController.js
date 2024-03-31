@@ -6,17 +6,6 @@ const email = process.env.EMAIL;
 const password = process.env.PASSWORD;
 
 ///Rendring Pages
-// Rendre la page de liste des salles
-exports.reservationPage = async (req, res) => {
-  try {
-    // Rendre la page sallelist.ejs en passant les données des salles
-    res.render("reservation");
-  } catch (err) {
-    // Gérer les erreurs
-    res.status(404).send("Page Not Found !");
-  }
-};
-
 //Edit Reservation Page
 exports.editReservationPage = async (req, res) => {
   try {
@@ -35,7 +24,7 @@ exports.userReservationsPage = async (req, res) => {
     utilisateur: currentUser,
   }).populate("salle");
   try {
-    res.render("userReservationsList", { res: userRes });
+    res.render("userReservationsList", { user: currentUser, res: userRes });
   } catch (err) {
     res.status(404).send("Page Not Found!");
   }
@@ -72,7 +61,7 @@ exports.addReservation = async (req, res) => {
       await sendConfMail(recemail, reservationDetails);
       res.status(201).redirect("/myrerservations");
     } else {
-      res.status(400).send("date already in use");
+      res.send("date already in use");
     }
   } catch (err) {
     console.error(err); // Afficher l'erreur dans la console pour le débogage
@@ -211,7 +200,7 @@ const sendUpdateMail = async (recemail, oldReservation, newDate) => {
       subject: "Confirmation de Modification du date de reservation",
       html: `<p> <b> Bonjour , <b> </p>
           <p> Votre Date de reservation a été Modifier Pour la Salle : <b> ${oldReservation.salle.name} </b>  <br> Ancien date : <b> ${formattedOldDate} </b> <br>
-            </b> Nouveau Date : <b> ${formattedNewDate} </p>
+            </b> Nouvelle Date : <b> ${formattedNewDate} </p>
           <p>  <b> Merci ! </b> </p>`,
     };
     await transporter.sendMail(mailOption);

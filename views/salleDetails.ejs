@@ -5,15 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Détails de la salle</title>
     <link rel="stylesheet" href="/css/styleSalleDetail.css" />
+    <%- include('../views/partials/css.ejs') %>
   </head>
   <body>
+    <%- include('../views/partials/header.ejs') %>
     <h1>Détails de la salle</h1>
-    <ul>
+    <ul class="salleInfo">
       <li>Nom de la salle : <span><%= salle.name %></span></li>
       <li>Capacité : <span><%= salle.capacity %></span></li>
       <li>Prix : <span><%= salle.price %></span></li>
+      <li>Equipements :</li>
+      <ul class="display-list">
+        <% salle.items.forEach(item => { %>
+        <li><span><%= item %></span></li>
+        <% }); %>
+      </ul>
       <li>Date(s) Réservée(s) :</li>
-      <ul class="date-reseve">
+      <ul class="display-list">
         <% resDateAndTime.forEach(date => { %>
         <li><span><%= date %></span></li>
         <% }); %>

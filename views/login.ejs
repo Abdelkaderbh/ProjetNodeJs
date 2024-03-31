@@ -24,6 +24,7 @@
 
 
   </head>
+
   <body>
     <section class="h-100 bg-dark">
       <div class="container py-5 h-100">
@@ -85,10 +86,18 @@
                             >
                           </input>
                           </div>
+                          <div>
+                            <p> You don't have an account ? <a href="/register"> Register Here </a> </p>
+                          </div>
                           <% if (errorMessage) { %>
                             <div class="alert alert-danger mt-3" role="alert" id="errorMessage">
                                 <%= errorMessage %>
                             </div>
+                            <script>
+                              setTimeout(function () {
+                                document.getElementById("errorMessage").style.display = "none";
+                              }, 2000);
+                            </script>
                           <% } %>
                         </div>
                       </div>

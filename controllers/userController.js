@@ -16,10 +16,16 @@ exports.registerPage = async (req, res) => {
 exports.registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    const user = new User({ username, email, password });
-    await user.save();
-    // Rediriger l'utilisateur vers la page de connexion après l'enregistrement réussi
-    res.redirect("/login");
+    const isExist = await User.findOne({ username: username, email: email });
+    if (isExist) {
+      return res.render("register", {
+        Message: "Username or Email Already Exists",
+      });
+    } else {
+      const user = new User({ username, email, password });
+      await user.save();
+      res.redirect("/login");
+    }
   } catch (err) {
     res.status(400).send(err.message);
   }

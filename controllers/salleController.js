@@ -25,7 +25,7 @@ exports.afficherListeSalles = async (req, res) => {
 // Rendre la page de liste des salles
 exports.allsallePage = async (req, res) => {
   try {
-    // Récupérer toutes les salles
+    const currentUser = req.userId;
     const salles = await Salle.find();
     // Rendre la page sallelist.ejs en passant les données des salles
     res.render("sallelist", { salles: salles });
@@ -47,6 +47,7 @@ exports.addSalle = async (req, res) => {
 
 // Rendre la page de plus d'infos de salle
 exports.salleDetailsPage = async (req, res) => {
+  const currentUser = req.userId;
   try {
     // Récupérer l'ID de la salle à partir des paramètres de la requête
     const salleId = req.params.id;
@@ -68,7 +69,11 @@ exports.salleDetailsPage = async (req, res) => {
       moment(date).format("DD-MM-YYYY")
     );
     // Rendre la page salleDetails.ejs en passant les données de la salle
-    res.render("salleDetails", { salle: salle, resDateAndTime });
+    res.render("salleDetails", {
+      user: currentUser,
+      salle: salle,
+      resDateAndTime,
+    });
   } catch (error) {
     // Gérer les erreurs
     console.error(error);
