@@ -14,12 +14,12 @@
       <li>Nom de la salle : <span><%= salle.name %></span></li>
       <li>Capacité : <span><%= salle.capacity %></span></li>
       <li>Prix : <span><%= salle.price %></span></li>
-      <li>Equipements :</li>
-      <ul class="display-list">
-        <% salle.items.forEach(item => { %>
-        <li><span><%= item %></span></li>
-        <% }); %>
-      </ul>
+      <li>Equipements :
+      
+        <span> <% salle.items.forEach(item => { %>
+         <%= item %>-
+        <% }); %></span>
+      </li>
       <li>Date(s) Réservée(s) :</li>
       <ul class="display-list">
         <% resDateAndTime.forEach(date => { %>
