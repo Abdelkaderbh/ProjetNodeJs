@@ -8,12 +8,17 @@
   </head>
   <body>
     <h1>Modifier Reservation</h1>
-    <ul>
+    <ul class="salleInfo">
       <li>Nom de la salle : <span><%= reservation.salle.name %></span></li>
 
       <li>Date(s) Réservée(s) :</li>
-      <ul class="date-reseve">
-        <li><span><%= reservation.dateReservation %></span></li>
+      <ul class="display-list">
+        <li>
+          <span
+            ><%= reservation.dateReservation.toLocaleDateString('fr-FR', { day:
+            'numeric', month: 'short', year: 'numeric' }) %></span
+          >
+        </li>
       </ul>
     </ul>
     <form

@@ -7,12 +7,13 @@ exports.homePage = async (req, res) => {
     if (!token) {
       res.render("index", { user });
       return;
+    } else {
+      // Decode token to get user information
+      const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+      user = decodedToken;
+      res.render("index", { user });
     }
-    // Decode token to get user information
-    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-    user = decodedToken;
-    res.render("index", { user });
   } catch (err) {
-    res.status(404).send("Page not found!");
+    res.status(404).send(err.message);
   }
 };

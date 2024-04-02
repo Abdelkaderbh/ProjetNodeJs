@@ -56,10 +56,7 @@ exports.loginUser = async (req, res) => {
     }
     const token = jwt.sign(
       { id: user._id, email: user.email },
-      process.env.SECRET_KEY,
-      {
-        expiresIn: "24h",
-      }
+      process.env.SECRET_KEY
     );
     res.cookie("token", token);
     return res.redirect("/");
