@@ -14,19 +14,14 @@
       <li>Nom de la salle : <span><%= salle.name %></span></li>
       <li>Capacité : <span><%= salle.capacity %></span></li>
       <li>Prix : <span><%= salle.price %></span></li>
-      <li>Equipements :</li>
-      <ul class="display-list">
-        <% salle.items.forEach(item => { %>
-        <li><span><%= item %></span></li>
-        <% }); %>
-      </ul>
-      <li>Date(s) Réservée(s) :</li>
-      <ul class="display-list">
-        <% resDateAndTime.forEach(date => { %>
-        <li><span><%= date %></span></li>
-        <% }); %>
-      </li>
-    </ul>
+      <li>Equipements : <% salle.items.forEach((item,index) => { %>
+        <span><%= item %> <%= index < salle.items.length - 1 ? "," : "" %>  </span>
+        <% }); %></li>
+    
+      <li>Date(s) Réservée(s) :    <% resDateAndTime.forEach((date,index) => { %>
+        <span><%= date %> <%= index < resDateAndTime.length - 1 ? ",": "" %> </span>
+         <% }); %></li>
+     
     <form
       id="reservationForm"
       method="post"
