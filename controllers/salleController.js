@@ -28,7 +28,7 @@ exports.allsallePage = async (req, res) => {
     const currentUser = req.userId;
     const salles = await Salle.find();
     // Rendre la page sallelist.ejs en passant les données des salles
-    res.render("sallelist", { salles: salles });
+    res.render("sallelist", { salles: salles, user: currentUser});
   } catch (err) {
     // Gérer les erreurs
     res.status(404).send("Page Not Found !");
